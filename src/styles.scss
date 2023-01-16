@@ -1,0 +1,200 @@
+:root {
+  --font-weight-regular: 400;
+  --font-weight-bold: 500;
+
+  --font-size-sm: 0.75rem;
+  --font-size-md: 0.85rem;
+  --font-size-lg: 1.25rem;
+
+  --color-primary: #ffa384;
+  --color-secondary: #74bdcb;
+  --color-secondary-dark: #68abb7;
+
+  --color-black: #343434;
+  --color-white: #ffffff;
+  --color-gray-light: #ededed;
+  --color-gray-dark: #565656;
+
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+
+  --border-black: 1px solid var(--color-black);
+  --border-gray: 1px solid var(--color-gray-dark);
+  --border-current: 1px solid currentcolor;
+  --border-primary: 1px solid var(--color-primary);
+  --border-secondary: 1px solid var(--color-secondary);
+  --border-secondary-dark: 1px solid var(--color-secondary-dark);
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: var(--font-weight-regular);
+  line-height: 1;
+  color: var(--color-black);
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-weight: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
+}
+
+button,
+.button {
+  background: var(--color-secondary);
+  border: var(--border-secondary-dark);
+  color: var(--color-white);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  text-transform: capitalize;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &.secondary {
+    background: var(--color-gray-light);
+    color: var(--color-black);
+    border: var(--border-gray);
+  }
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 0.25rem;
+}
+
+input,
+textarea {
+  font: inherit;
+  font-size: var(--font-size-md);
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: var(--border-black);
+  border-radius: var(--border-radius-sm);
+
+  &:focus,
+  &:focus-visible,
+  &:focus-visible {
+    outline: none;
+    border: var(--border-secondary);
+  }
+
+  &.invalid,
+  &.ng-touched.ng-invalid {
+    border: var(--border-primary);
+  }
+
+  &:focus ~ .form-hint {
+    color: var(--color-secondary);
+  }
+}
+
+textarea {
+  line-height: 1;
+  min-height: 4.5rem;
+}
+
+.form {
+  color: var(--color-gray-dark);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  padding: 0 4rem;
+
+  &-control {
+    width: 100%;
+  }
+
+  &-hint {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    margin-top: 0.25rem;
+  }
+
+  &-error {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    margin-top: 0.25rem;
+    color: var(--color-primary);
+  }
+
+  &-array {
+    width: 100%;
+
+    &-header {
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-label {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    &-item {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      &:not(:last-child) {
+        margin-bottom: 0.75rem;
+      }
+
+      .form-control > input:not(.ng-invalid.ng-touched) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  &-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+}
