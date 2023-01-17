@@ -1,0 +1,7 @@
+<div class="recipe" (click)="onItemSelected(recipe)">
+  <img class="recipe-image" [src]="recipe.image" [alt]="recipe.name" />
+  <div class="recipe-details">
+    <h3 class="recipe-name">{{ recipe.name }}</h3>
+    <p class="recipe-description">{{ recipe.description }}</p>
+  </div>
+</div>

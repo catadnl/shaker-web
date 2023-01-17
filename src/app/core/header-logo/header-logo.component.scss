@@ -1,0 +1,15 @@
+.header-logo {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &-image {
+    height: 3rem;
+  }
+
+  &-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+  }
+}

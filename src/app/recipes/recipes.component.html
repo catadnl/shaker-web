@@ -1,0 +1,9 @@
+<div class="recipes">
+  <div class="recipes-header">
+    <app-search class="recipes-search" [placeholderText]="placeholderText" (searchChanged)="onSearchChanged($event)"></app-search>
+  </div>
+
+  <div class="recipes-content">
+    <app-recipes-list [recipes]="recipes" (itemSelected)="onItemSelected($event)"></app-recipes-list>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+.header {
+  width: 100%;
+  background: var(--color-primary);
+  height: 5rem;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  &-tabs {
+    flex: 1;
+    display: flex;
+    gap: 1rem;
+  }
+
+  &-tabs-item {
+    cursor: pointer;
+
+    &.active {
+      border-bottom: var(--border-current);
+      padding-bottom: 0.5rem;
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
+      color: var(--color-white);
+    }
+
+    &.right {
+      margin-left: auto;
+    }
+  }
+}

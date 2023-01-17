@@ -1,0 +1,5 @@
+<ul class="recipe-list">
+  <li class="recipe-list-item" *ngFor="let recipe of recipes">
+    <app-recipes-item [recipe]="recipe" (itemSelected)="onItemSelected($event)"> </app-recipes-item>
+  </li>
+</ul>

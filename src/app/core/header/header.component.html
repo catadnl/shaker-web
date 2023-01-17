@@ -1,0 +1,7 @@
+<header class="header">
+  <app-header-logo imageSource="assets/logo.png" title="Shaker" (loadImageFinished)="onImageLoadFinished($event)"> </app-header-logo>
+
+  <ul class="header-tabs">
+    <li *ngFor="let tab of tabs" class="header-tabs-item" (click)="onSelectTab(tab)">{{ tab }}</li>
+  </ul>
+</header>

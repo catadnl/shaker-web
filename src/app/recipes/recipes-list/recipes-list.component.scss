@@ -1,0 +1,9 @@
+.recipe-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.recipe-list-item {
+  cursor: pointer;
+}

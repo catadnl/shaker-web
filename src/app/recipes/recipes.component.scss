@@ -1,0 +1,22 @@
+.recipes {
+  padding: 1rem;
+
+  &-header {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &-search {
+    flex: 1;
+  }
+
+  &-content {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2rem;
+
+    & > * {
+      flex: 1;
+    }
+  }
+}

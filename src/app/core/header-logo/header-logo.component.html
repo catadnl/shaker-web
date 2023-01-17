@@ -1,0 +1,4 @@
+<div class="header-logo">
+  <img [src]="imageSource" alt="logo" class="header-logo-image" (error)="onImageLoadFailed()" (load)="onImageLoadSuccess()" />
+  <h1 class="header-logo-title">{{ title }}</h1>
+</div>

@@ -1,0 +1,41 @@
+.recipe {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  gap: 2rem;
+
+  &-image {
+    width: 40%;
+    border-radius: var(--border-radius-md);
+  }
+
+  &-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &-name {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+  }
+
+  &-description {
+    color: var(--color-gray-dark);
+  }
+
+  &-ingredients {
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &-ingredients-item {
+    color: var(--color-gray-dark);
+    font-size: var(--font-size-sm);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius-sm);
+    border: var(--border-current);
+  }
+}
