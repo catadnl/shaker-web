@@ -130,6 +130,10 @@ const RECIPES = [
 export class RecipesComponent {
   recipes = RECIPES;
 
+  selectedRecipe: Recipe | null = null;
+
+  mode: 'none' | 'details' | 'create' | 'edit' = 'none';
+
   placeholderText = 'Search recipes..';
 
   onSearchChanged(searchTerm: string) {
@@ -137,6 +141,18 @@ export class RecipesComponent {
   }
 
   onItemSelected(recipe: Recipe) {
+    if (!!this.selectedRecipe && this.selectedRecipe.id === recipe.id) {
+      this.selectedRecipe = null;
+      this.mode = 'none';
+    } else {
+      this.mode = 'details';
+      this.selectedRecipe = recipe;
+    }
     console.log('Recipe selected', recipe);
+  }
+
+  onCreteRecipe() {
+    this.mode = 'create';
+    this.selectedRecipe = null;
   }
 }

@@ -1,2 +1,7 @@
-<app-header (tabSelected)="onTabSelected($event)"></app-header>
-<app-recipes></app-recipes>
+<app-header (tabSelected)="onTabSelected($event)" [tabs]="tabs" [selectedTab]="selectedTab"></app-header>
+
+<app-recipes *ngIf="selectedTab === 'Recipes'; else fallbackContent"></app-recipes>
+
+<ng-template #fallbackContent>
+  <app-shopping> </app-shopping>
+</ng-template>

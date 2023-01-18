@@ -1,1 +1,13 @@
-<p>recipes-details works!</p>
+<div class="recipe">
+  <img class="recipe-image" [src]="recipe.image" [alt]="recipe.name" />
+
+  <div class="recipe-details">
+    <h2 class="recipe-name">{{ recipe.name }}</h2>
+
+    <p class="recipe-description" *ngIf="recipe.description">{{ recipe.description }}</p>
+
+    <ul class="recipe-ingredients">
+      <li class="recipe-ingredients-item" *ngFor="let ingredient of recipe.ingredients">{{ ingredient.name }}</li>
+    </ul>
+  </div>
+</div>

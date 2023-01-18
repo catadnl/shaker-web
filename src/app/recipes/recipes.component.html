@@ -1,9 +1,17 @@
 <div class="recipes">
   <div class="recipes-header">
+    <button (click)="onCreteRecipe()" [disabled]="mode === 'create'">Create recipe</button>
     <app-search class="recipes-search" [placeholderText]="placeholderText" (searchChanged)="onSearchChanged($event)"></app-search>
   </div>
 
   <div class="recipes-content">
-    <app-recipes-list [recipes]="recipes" (itemSelected)="onItemSelected($event)"></app-recipes-list>
+    <app-recipes-list [recipes]="recipes" [selectedItem]="selectedRecipe" (itemSelected)="onItemSelected($event)"></app-recipes-list>
+
+    <ng-container [ngSwitch]="mode">
+      <app-recipes-details *ngSwitchCase="'details'" [recipe]="selectedRecipe!"></app-recipes-details>
+      <app-recipes-form *ngSwitchCase="'create'"></app-recipes-form>
+      <app-recipes-form [recipe]="selectedRecipe!" *ngSwitchCase="'edit'"></app-recipes-form>
+      <!--      <app-recipes-form *ngSwitchDefault="'edit'"></app-recipes-form>-->
+    </ng-container>
   </div>
 </div>
