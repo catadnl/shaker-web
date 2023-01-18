@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Recipe } from '../recipes.component';
+import { Recipe } from '../recipes.service';
 
 @Component({
   selector: 'app-recipes-item',
@@ -13,7 +13,21 @@ export class RecipesItemComponent {
 
   @Output() itemSelected = new EventEmitter<Recipe>();
 
+  @Output() itemDeleted = new EventEmitter<Recipe>();
+
+  @Output() itemEdited = new EventEmitter<Recipe>();
+
   onItemSelected(recipe: Recipe) {
     this.itemSelected.emit(recipe);
+  }
+
+  onItemEdit(event: MouseEvent, recipe: Recipe) {
+    event.stopPropagation();
+    this.itemEdited.emit(recipe);
+  }
+
+  onItemDeleted(event: MouseEvent, recipe: Recipe) {
+    event.stopPropagation();
+    this.itemDeleted.emit(recipe);
   }
 }

@@ -1,140 +1,30 @@
-import { Component } from '@angular/core';
-
-export interface Ingredient {
-  name: string;
-  quantity?: number;
-}
-
-export interface Recipe {
-  id: string;
-  name: string;
-  description?: string;
-  image: string;
-  ingredients: Ingredient[];
-}
-
-const RECIPES = [
-  {
-    id: '1',
-    name: 'Negroni',
-    description:
-      'To make the perfect classic negroni cocktail all you need is balance: use equal parts gin, vermouth and Campari, and choose the best products you have in reach',
-    image: 'assets/images/negroni.jpg',
-    ingredients: [
-      {
-        name: 'gin',
-      },
-      {
-        name: 'sweet vermouth',
-      },
-      {
-        name: 'Campari',
-      },
-      {
-        name: 'ice',
-      },
-    ],
-  },
-  {
-    id: '2',
-    name: 'Vodka martini',
-    description:
-      'Make an easy vodka martini with our simple recipe for an elegant party tipple. Serve your cool cocktail with an olive or a twist of lemon peel',
-    image: 'assets/images/vodka-martini.jpg',
-    ingredients: [
-      {
-        name: 'vodka',
-      },
-      {
-        name: 'dry vermouth',
-      },
-      {
-        name: 'lemon peel',
-      },
-    ],
-  },
-  {
-    id: '3',
-    name: 'Old fashioned',
-    description: 'A traditional whisky cocktail with bitters, soda water and a simple orange garnish',
-    image: 'assets/images/old-fashioned.jpg',
-    ingredients: [
-      {
-        name: 'Scotch whiskey',
-      },
-      {
-        name: 'Angostura bitters',
-      },
-      {
-        name: 'soda',
-      },
-      {
-        name: 'orange slice',
-      },
-      {
-        name: 'maraschino cherry',
-      },
-    ],
-  },
-  {
-    id: '4',
-    name: 'Sidecar Mocktail',
-    description:
-      'Serve up a sophisticated alcohol-free sidecar mocktail. It’s made with lapsang souchong tea, lemon juice, marmalade and honey',
-    image: 'assets/images/sidecar-mocktail.jpg',
-    ingredients: [
-      {
-        name: 'cold tea',
-      },
-      {
-        name: 'lemon juice',
-      },
-      {
-        name: 'marmalade',
-      },
-      {
-        name: 'honey',
-      },
-      {
-        name: 'ice',
-      },
-    ],
-  },
-  {
-    id: '5',
-    name: 'Fruity Mocktail',
-    description: 'Make this fruit-flavoured mocktail with grenadine and orange juice',
-    image: 'assets/images/fruity-mocktail.jpg',
-    ingredients: [
-      {
-        name: 'green grapes',
-      },
-      {
-        name: 'blueberries',
-      },
-      {
-        name: 'grenadine',
-      },
-      {
-        name: 'sparkling water',
-      },
-    ],
-  },
-];
+import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { RECIPE_TEXTS_CONFIG, RecipesTextsConfig } from './app.config';
+import { Recipe, RecipesService } from './recipes.service';
 
 @Component({
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.scss'],
+  // providers: [RecipesService],
 })
-export class RecipesComponent {
-  recipes = RECIPES;
+export class RecipesComponent implements OnInit {
+  recipes: Recipe[] = [];
 
   selectedRecipe: Recipe | null = null;
 
   mode: 'none' | 'details' | 'create' | 'edit' = 'none';
 
   placeholderText = 'Search recipes..';
+
+  constructor(
+    private recipesService: RecipesService,
+    @Optional() @Inject(RECIPE_TEXTS_CONFIG) public recipesTextsConfig?: RecipesTextsConfig
+  ) {}
+
+  ngOnInit() {
+    this.recipes = this.recipesService.getRecipes();
+  }
 
   onSearchChanged(searchTerm: string) {
     console.log('Search changed', searchTerm);
@@ -154,5 +44,19 @@ export class RecipesComponent {
   onCreteRecipe() {
     this.mode = 'create';
     this.selectedRecipe = null;
+  }
+
+  onItemEdited(recipe: Recipe) {
+    this.mode = 'edit';
+    this.selectedRecipe = recipe;
+  }
+
+  onItemDeleted(recipe: Recipe) {
+    if (this.selectedRecipe && this.selectedRecipe.id === recipe.id) {
+      this.selectedRecipe = null;
+      this.mode = 'none';
+    }
+    this.recipesService.deleteRecipe(recipe.id);
+    this.recipes = this.recipesService.getRecipes();
   }
 }

@@ -1,11 +1,21 @@
 <div class="recipes">
   <div class="recipes-header">
-    <button (click)="onCreteRecipe()" [disabled]="mode === 'create'">Create recipe</button>
-    <app-search class="recipes-search" [placeholderText]="placeholderText" (searchChanged)="onSearchChanged($event)"></app-search>
+    <button (click)="onCreteRecipe()" [disabled]="mode === 'create'">{{ recipesTextsConfig?.createButton ?? 'Create Recipe' }}</button>
+    <app-search
+      class="recipes-search"
+      [placeholderText]="recipesTextsConfig?.searchPlaceholder ?? 'Search recipe..'"
+      (searchChanged)="onSearchChanged($event)"
+    ></app-search>
   </div>
 
   <div class="recipes-content">
-    <app-recipes-list [recipes]="recipes" [selectedItem]="selectedRecipe" (itemSelected)="onItemSelected($event)"></app-recipes-list>
+    <app-recipes-list
+      [recipes]="recipes"
+      [selectedItem]="selectedRecipe"
+      (itemSelected)="onItemSelected($event)"
+      (itemEdited)="onItemEdited($event)"
+      (itemDeleted)="onItemDeleted($event)"
+    ></app-recipes-list>
 
     <ng-container [ngSwitch]="mode">
       <app-recipes-details *ngSwitchCase="'details'" [recipe]="selectedRecipe!"></app-recipes-details>

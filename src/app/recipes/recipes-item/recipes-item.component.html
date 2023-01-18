@@ -4,5 +4,10 @@
   <div class="recipe-details">
     <h3 class="recipe-name">{{ recipe.name }}</h3>
     <p *ngIf="recipe.description !== undefined" class="recipe-description">{{ recipe.description }}</p>
+
+    <div class="recipe-actions">
+      <button (click)="onItemEdit($event, recipe)">Edit</button>
+      <button (click)="onItemDeleted($event, recipe)">Delete</button>
+    </div>
   </div>
 </div>

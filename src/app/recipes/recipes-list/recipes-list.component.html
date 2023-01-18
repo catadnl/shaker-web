@@ -4,6 +4,8 @@
     <app-recipes-item
       [recipe]="recipe"
       (itemSelected)="onItemSelected($event)"
+      (itemEdited)="onItemEdited($event)"
+      (itemDeleted)="onItemDeleted($event)"
       [isSelected]="!!selectedItem && recipe.id === selectedItem.id"
     >
     </app-recipes-item>

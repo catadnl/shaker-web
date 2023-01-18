@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  // constructor(@Inject(APP_ENVIRONMENT) appEnvironment: AppEnvironment) {
+  //   console.log('APP ENV', appEnvironment);
+  // }
+
   tabs = ['Recipes', 'Shopping'];
 
   selectedTab: string | null = 'Recipes';
