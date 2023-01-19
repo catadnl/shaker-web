@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { Component, Inject, OnDestroy, Optional } from '@angular/core';
 import { RECIPE_TEXTS_CONFIG, RecipesTextsConfig } from './app.config';
 import { Recipe, RecipesService } from './recipes.service';
 
@@ -8,26 +8,24 @@ import { Recipe, RecipesService } from './recipes.service';
   styleUrls: ['./recipes.component.scss'],
   // providers: [RecipesService],
 })
-export class RecipesComponent implements OnInit {
-  recipes: Recipe[] = [];
+export class RecipesComponent implements OnDestroy {
+  recipes$ = this.recipesService.filteredRecipes$;
 
   selectedRecipe: Recipe | null = null;
 
   mode: 'none' | 'details' | 'create' | 'edit' = 'none';
-
-  placeholderText = 'Search recipes..';
 
   constructor(
     private recipesService: RecipesService,
     @Optional() @Inject(RECIPE_TEXTS_CONFIG) public recipesTextsConfig?: RecipesTextsConfig
   ) {}
 
-  ngOnInit() {
-    this.recipes = this.recipesService.getRecipes();
+  ngOnDestroy(): void {
+    this.recipesService.resetRecipes();
   }
 
   onSearchChanged(searchTerm: string) {
-    console.log('Search changed', searchTerm);
+    this.recipesService.filterRecipes(searchTerm);
   }
 
   onItemSelected(recipe: Recipe) {
@@ -57,6 +55,5 @@ export class RecipesComponent implements OnInit {
       this.mode = 'none';
     }
     this.recipesService.deleteRecipe(recipe.id);
-    this.recipes = this.recipesService.getRecipes();
   }
 }

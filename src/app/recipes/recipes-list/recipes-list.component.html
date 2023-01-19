@@ -1,6 +1,6 @@
-<ul class="recipe-list">
+<ul class="recipe-list" *ngIf="recipes">
   <li class="recipe-list-item" *ngFor="let recipe of recipes; let myIndex = index">
-    <!--    {{ myIndex }}-->
+    <!--    {{ myIndex }} -->
     <app-recipes-item
       [recipe]="recipe"
       (itemSelected)="onItemSelected($event)"

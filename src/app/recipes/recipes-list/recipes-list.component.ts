@@ -7,7 +7,7 @@ import { Recipe } from '../recipes.service';
   styleUrls: ['./recipes-list.component.scss'],
 })
 export class RecipesListComponent {
-  @Input() recipes!: Recipe[];
+  @Input() recipes!: Recipe[] | null;
 
   // _selectedItem: Recipe | null = null;
   //

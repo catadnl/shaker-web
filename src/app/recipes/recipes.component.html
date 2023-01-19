@@ -10,7 +10,7 @@
 
   <div class="recipes-content">
     <app-recipes-list
-      [recipes]="recipes"
+      [recipes]="recipes$ | async"
       [selectedItem]="selectedRecipe"
       (itemSelected)="onItemSelected($event)"
       (itemEdited)="onItemEdited($event)"
