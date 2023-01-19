@@ -30,4 +30,9 @@ export class RecipesItemComponent {
     event.stopPropagation();
     this.itemDeleted.emit(recipe);
   }
+
+  // ngOnInit(): void {
+  // this.recipe.description = this.ellipsisPipe.transform(this.recipe.description);
+  // this.recipe.description = EllipsisPipe.addEllipsis(this.recipe.description ?? '');
+  // }
 }

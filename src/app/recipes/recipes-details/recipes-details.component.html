@@ -1,5 +1,5 @@
 <div class="recipe">
-  <img class="recipe-image" [src]="recipe.image" [alt]="recipe.name" />
+  <img class="recipe-image" [src]="recipe.image | imageUrl" [alt]="recipe.name" />
 
   <div class="recipe-details">
     <h2 class="recipe-name">{{ recipe.name }}</h2>
@@ -7,7 +7,7 @@
     <p class="recipe-description" *ngIf="recipe.description">{{ recipe.description }}</p>
 
     <ul class="recipe-ingredients">
-      <li class="recipe-ingredients-item" *ngFor="let ingredient of recipe.ingredients">{{ ingredient.name }}</li>
+      <li class="recipe-ingredients-item" *ngFor="let ingredient of recipe.ingredients">{{ ingredient.name | titlecase }}</li>
     </ul>
   </div>
 </div>

@@ -1,9 +1,9 @@
 <!--<div appHoverBlur [opacityPercentage]="0.1" class="recipe" (click)="onItemSelected(recipe)" [ngClass]="{ selected: isSelected }">-->
 <div [appHoverBlur]="0.6" class="recipe" (click)="onItemSelected(recipe)" [ngClass]="{ selected: isSelected }">
-  <img class="recipe-image" [src]="recipe.image" [alt]="recipe.name" />
+  <img class="recipe-image" [src]="recipe.image | imageUrl" [alt]="recipe.name" />
   <div class="recipe-details">
     <h3 class="recipe-name">{{ recipe.name }}</h3>
-    <p *ngIf="recipe.description !== undefined" class="recipe-description">{{ recipe.description }}</p>
+    <p *ngIf="recipe.description" class="recipe-description">{{ recipe.description | ellipsis }}</p>
 
     <div class="recipe-actions">
       <button (click)="onItemEdit($event, recipe)">Edit</button>

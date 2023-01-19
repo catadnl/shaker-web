@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 export interface Ingredient {
   name: string;
-  quantity?: number;
+  quantity: number;
 }
 
 export interface Recipe {
@@ -25,19 +25,23 @@ export class RecipesService {
       name: 'Negroni',
       description:
         'To make the perfect classic negroni cocktail all you need is balance: use equal parts gin, vermouth and Campari, and choose the best products you have in reach',
-      image: 'assets/images/negroni.jpg',
+      image: 'negroni.jpg',
       ingredients: [
         {
           name: 'gin',
+          quantity: 1,
         },
         {
           name: 'sweet vermouth',
+          quantity: 1,
         },
         {
           name: 'Campari',
+          quantity: 1,
         },
         {
           name: 'ice',
+          quantity: 2,
         },
       ],
     },
@@ -46,16 +50,19 @@ export class RecipesService {
       name: 'Vodka martini',
       description:
         'Make an easy vodka martini with our simple recipe for an elegant party tipple. Serve your cool cocktail with an olive or a twist of lemon peel',
-      image: 'assets/images/vodka-martini.jpg',
+      image: 'vodka-martini.jpg',
       ingredients: [
         {
           name: 'vodka',
+          quantity: 1,
         },
         {
           name: 'dry vermouth',
+          quantity: 1,
         },
         {
           name: 'lemon peel',
+          quantity: 1,
         },
       ],
     },
@@ -63,22 +70,27 @@ export class RecipesService {
       id: '3',
       name: 'Old fashioned',
       description: 'A traditional whisky cocktail with bitters, soda water and a simple orange garnish',
-      image: 'assets/images/old-fashioned.jpg',
+      image: 'old-fashioned.jpg',
       ingredients: [
         {
           name: 'Scotch whiskey',
+          quantity: 1,
         },
         {
           name: 'Angostura bitters',
+          quantity: 1,
         },
         {
           name: 'soda',
+          quantity: 1,
         },
         {
           name: 'orange slice',
+          quantity: 2,
         },
         {
           name: 'maraschino cherry',
+          quantity: 1,
         },
       ],
     },
@@ -87,22 +99,27 @@ export class RecipesService {
       name: 'Sidecar Mocktail',
       description:
         'Serve up a sophisticated alcohol-free sidecar mocktail. It’s made with lapsang souchong tea, lemon juice, marmalade and honey',
-      image: 'assets/images/sidecar-mocktail.jpg',
+      image: 'sidecar-mocktail.jpg',
       ingredients: [
         {
           name: 'cold tea',
+          quantity: 1,
         },
         {
           name: 'lemon juice',
+          quantity: 1,
         },
         {
           name: 'marmalade',
+          quantity: 1,
         },
         {
           name: 'honey',
+          quantity: 1,
         },
         {
           name: 'ice',
+          quantity: 2,
         },
       ],
     },
@@ -110,19 +127,23 @@ export class RecipesService {
       id: '5',
       name: 'Fruity Mocktail',
       description: 'Make this fruit-flavoured mocktail with grenadine and orange juice',
-      image: 'assets/images/fruity-mocktail.jpg',
+      image: 'fruity-mocktail.jpg',
       ingredients: [
         {
           name: 'green grapes',
+          quantity: 1,
         },
         {
           name: 'blueberries',
+          quantity: 3,
         },
         {
           name: 'grenadine',
+          quantity: 1,
         },
         {
           name: 'sparkling water',
+          quantity: 1,
         },
       ],
     },
