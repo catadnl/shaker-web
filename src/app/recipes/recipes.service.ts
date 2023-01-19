@@ -178,4 +178,8 @@ export class RecipesService {
     });
     this.filteredRecipes$$.next(filteredRecipes);
   }
+
+  getById(id: string): Recipe | null {
+    return this.recipes.find((recipe) => recipe.id === id) ?? null;
+  }
 }

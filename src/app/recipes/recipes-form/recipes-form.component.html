@@ -1,1 +1,43 @@
-<p>{{ recipe | json }}</p>
+<form class="form">
+  <div class="form-control">
+    <label>Name*</label>
+    <input type="text" placeholder="Recipe name" />
+  </div>
+
+  <div class="form-control">
+    <label>Description</label>
+    <textarea placeholder="Recipe description"></textarea>
+  </div>
+
+  <div class="form-control">
+    <label>Image*</label>
+    <input type="text" placeholder="Recipe image" />
+  </div>
+
+  <ul class="form-array">
+    <li class="form-array-header">
+      <div class="form-array-label">
+        <h4>Ingredients*</h4>
+        <button type="button">Add</button>
+      </div>
+    </li>
+
+    <li class="form-array-item">
+      <div class="form-control">
+        <label>Name*</label>
+        <input type="text" placeholder="Ingredient name" />
+      </div>
+      <div class="form-control">
+        <label>Quantity ( >= 1)</label>
+        <input type="number" min="0" placeholder="Ingredient quantity" />
+      </div>
+      <button type="button" class="form-array-item-action secondary">Delete</button>
+    </li>
+  </ul>
+
+  <div class="form-actions">
+    <button type="button">Save</button>
+    <button type="button" class="secondary">Cancel</button>
+    <button type="button" class="secondary">Clear</button>
+  </div>
+</form>

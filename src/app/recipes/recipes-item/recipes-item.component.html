@@ -5,9 +5,15 @@
     <h3 class="recipe-name">{{ recipe.name }}</h3>
     <p *ngIf="recipe.description" class="recipe-description">{{ recipe.description | ellipsis }}</p>
 
-    <div class="recipe-actions">
+    <div class="recipe-actions" *ngIf="!deleting">
       <button (click)="onItemEdit($event, recipe)">Edit</button>
-      <button (click)="onItemDeleted($event, recipe)">Delete</button>
+      <button class="secondary" (click)="onDeleteStarted($event)">Delete</button>
+    </div>
+
+    <div class="recipe-actions" *ngIf="deleting">
+      <p class="recipe-actions-confirmation">Are you sure?</p>
+      <button class="secondary" (click)="onDeleteCanceled($event)">No</button>
+      <button class="secondary" (click)="onDeleteConfirmed($event, recipe)">Yes</button>
     </div>
   </div>
 </div>

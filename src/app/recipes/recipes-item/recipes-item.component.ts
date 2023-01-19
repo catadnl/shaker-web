@@ -17,6 +17,8 @@ export class RecipesItemComponent {
 
   @Output() itemEdited = new EventEmitter<Recipe>();
 
+  deleting = false;
+
   onItemSelected(recipe: Recipe) {
     this.itemSelected.emit(recipe);
   }
@@ -26,13 +28,19 @@ export class RecipesItemComponent {
     this.itemEdited.emit(recipe);
   }
 
-  onItemDeleted(event: MouseEvent, recipe: Recipe) {
+  onDeleteStarted(event: MouseEvent) {
     event.stopPropagation();
+    this.deleting = true;
+  }
+
+  onDeleteConfirmed(event: MouseEvent, recipe: Recipe) {
+    event.stopPropagation();
+    this.deleting = false;
     this.itemDeleted.emit(recipe);
   }
 
-  // ngOnInit(): void {
-  // this.recipe.description = this.ellipsisPipe.transform(this.recipe.description);
-  // this.recipe.description = EllipsisPipe.addEllipsis(this.recipe.description ?? '');
-  // }
+  onDeleteCanceled(event: MouseEvent) {
+    event.stopPropagation();
+    this.deleting = false;
+  }
 }

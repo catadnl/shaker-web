@@ -130,6 +130,10 @@ textarea {
   &:focus ~ .form-hint {
     color: var(--color-secondary);
   }
+
+  &:disabled {
+    opacity: 0.3;
+  }
 }
 
 textarea {

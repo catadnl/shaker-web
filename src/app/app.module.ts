@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { appEnvironment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { APP_ENVIRONMENT } from './app.config';
+import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { RECIPE_TEXTS_CONFIG, RecipesTextsConfig } from './recipes/app.config';
 import { RecipesModule } from './recipes/recipes.module';
@@ -13,7 +15,7 @@ import { ShoppingComponent } from './shopping/shopping.component';
 
 @NgModule({
   declarations: [AppComponent, ShoppingComponent, ShoppingListComponent, ShoppingFormComponent],
-  imports: [BrowserAnimationsModule, CoreModule, RecipesModule],
+  imports: [BrowserAnimationsModule, AppRoutingModule, AuthModule, CoreModule, RecipesModule],
   providers: [
     {
       provide: RECIPE_TEXTS_CONFIG,

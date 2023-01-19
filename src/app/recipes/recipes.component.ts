@@ -1,4 +1,6 @@
-import { Component, Inject, OnDestroy, Optional } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter, map, startWith, Subject, takeUntil, tap } from 'rxjs';
 import { RECIPE_TEXTS_CONFIG, RecipesTextsConfig } from './app.config';
 import { Recipe, RecipesService } from './recipes.service';
 
@@ -8,20 +10,56 @@ import { Recipe, RecipesService } from './recipes.service';
   styleUrls: ['./recipes.component.scss'],
   // providers: [RecipesService],
 })
-export class RecipesComponent implements OnDestroy {
+export class RecipesComponent implements OnInit, OnDestroy {
+  private destroyed$$ = new Subject<void>();
+
   recipes$ = this.recipesService.filteredRecipes$;
 
   selectedRecipe: Recipe | null = null;
 
-  mode: 'none' | 'details' | 'create' | 'edit' = 'none';
+  isCreate = false;
 
   constructor(
     private recipesService: RecipesService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     @Optional() @Inject(RECIPE_TEXTS_CONFIG) public recipesTextsConfig?: RecipesTextsConfig
   ) {}
 
-  ngOnDestroy(): void {
-    this.recipesService.resetRecipes();
+  ngOnInit(): void {
+    this.router.events
+      .pipe(
+        takeUntil(this.destroyed$$),
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        map((event) => event.url.includes('/create')),
+        startWith(this.activatedRoute.snapshot.firstChild?.url.toString().includes('create') ?? false),
+        tap((isCreate) => {
+          this.isCreate = isCreate;
+        })
+      )
+      .subscribe();
+
+    this.router.events
+      .pipe(
+        takeUntil(this.destroyed$$),
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        map(() => {
+          return this.activatedRoute.snapshot.firstChild?.paramMap.get('id');
+        }),
+        startWith(this.activatedRoute.snapshot.firstChild?.paramMap.get('id') ?? null),
+        tap((recipeId) => {
+          if (recipeId) {
+            this.selectedRecipe = this.recipesService.getById(recipeId);
+          } else {
+            this.selectedRecipe = null;
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  get sideViewOpen(): boolean {
+    return this.isCreate || !!this.selectedRecipe;
   }
 
   onSearchChanged(searchTerm: string) {
@@ -30,30 +68,30 @@ export class RecipesComponent implements OnDestroy {
 
   onItemSelected(recipe: Recipe) {
     if (!!this.selectedRecipe && this.selectedRecipe.id === recipe.id) {
-      this.selectedRecipe = null;
-      this.mode = 'none';
+      this.router.navigate(['..'], { relativeTo: this.activatedRoute });
     } else {
-      this.mode = 'details';
-      this.selectedRecipe = recipe;
+      this.router.navigate([recipe.id], { relativeTo: this.activatedRoute });
     }
-    console.log('Recipe selected', recipe);
   }
 
   onCreteRecipe() {
-    this.mode = 'create';
-    this.selectedRecipe = null;
+    this.router.navigateByUrl('/recipes/create');
   }
 
   onItemEdited(recipe: Recipe) {
-    this.mode = 'edit';
-    this.selectedRecipe = recipe;
+    this.router.navigate([recipe.id, 'edit'], { relativeTo: this.activatedRoute });
   }
 
   onItemDeleted(recipe: Recipe) {
     if (this.selectedRecipe && this.selectedRecipe.id === recipe.id) {
-      this.selectedRecipe = null;
-      this.mode = 'none';
+      this.router.navigate(['..'], { relativeTo: this.activatedRoute });
     }
     this.recipesService.deleteRecipe(recipe.id);
+  }
+
+  ngOnDestroy(): void {
+    this.recipesService.resetRecipes();
+    this.destroyed$$.next();
+    this.destroyed$$.complete();
   }
 }

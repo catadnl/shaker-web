@@ -13,9 +13,9 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   @Input() placeholderText!: string;
 
-  @Output() searchChanged = new EventEmitter<string>();
+  @Input() isDisabled = false;
 
-  // searchTerm = '';
+  @Output() searchChanged = new EventEmitter<string>();
 
   ngOnInit(): void {
     this.inputChanged$$
@@ -35,9 +35,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   onInput(event: Event) {
     this.inputChanged$$.next((event.target as HTMLInputElement).value);
-
-    // this.searchTerm = (event.target as HTMLInputElement).value;
-    // this.searchChanged.emit(this.searchTerm);
   }
 
   ngOnDestroy(): void {
