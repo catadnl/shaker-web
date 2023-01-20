@@ -1,37 +1,48 @@
-<form class="form">
+<form [formGroup]="recipeForm" class="form">
   <div class="form-control">
     <label>Name*</label>
-    <input type="text" placeholder="Recipe name" />
+    <input type="text" formControlName="name" placeholder="Recipe name" />
   </div>
 
   <div class="form-control">
     <label>Description</label>
-    <textarea placeholder="Recipe description"></textarea>
+    <textarea formControlName="description" placeholder="Recipe description"></textarea>
   </div>
 
   <div class="form-control">
     <label>Image*</label>
-    <input type="text" placeholder="Recipe image" />
+    <input type="text" formControlName="image" placeholder="Recipe image" />
   </div>
 
-  <ul class="form-array">
+  <ul class="form-array" formArrayName="ingredients">
     <li class="form-array-header">
       <div class="form-array-label">
         <h4>Ingredients*</h4>
-        <button type="button">Add</button>
+        <button type="button" (click)="onAddIngredientGroup()">Add</button>
       </div>
     </li>
 
-    <li class="form-array-item">
+    <li
+      class="form-array-item"
+      *ngFor="let formGroup of ingredientsFormArray.controls; let formGroupIndex = index"
+      [formGroupName]="formGroupIndex"
+    >
       <div class="form-control">
         <label>Name*</label>
-        <input type="text" placeholder="Ingredient name" />
+        <input formControlName="name" type="text" placeholder="Ingredient name" />
       </div>
       <div class="form-control">
         <label>Quantity ( >= 1)</label>
-        <input type="number" min="0" placeholder="Ingredient quantity" />
+        <input type="number" formControlName="quantity" min="0" placeholder="Ingredient quantity" />
       </div>
-      <button type="button" class="form-array-item-action secondary">Delete</button>
+      <button
+        type="button"
+        *ngIf="ingredientsFormArray.length > 1"
+        class="form-array-item-action secondary"
+        (click)="onDeleteIngredientGroup(formGroupIndex)"
+      >
+        Delete
+      </button>
     </li>
   </ul>
 
