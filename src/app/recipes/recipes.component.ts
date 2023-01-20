@@ -50,6 +50,9 @@ export class RecipesComponent implements OnInit, OnDestroy {
         tap((recipeId) => {
           if (recipeId) {
             this.selectedRecipe = this.recipesService.getById(recipeId);
+            if (!this.selectedRecipe) {
+              this.router.navigate(['..'], { relativeTo: this.activatedRoute });
+            }
           } else {
             this.selectedRecipe = null;
           }

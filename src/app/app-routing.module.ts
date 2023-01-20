@@ -1,27 +1,32 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 import { ErrorComponent } from './core/error/error.component';
-import { RecipesDetailsComponent } from './recipes/recipes-details/recipes-details.component';
-import { RecipesFormComponent } from './recipes/recipes-form/recipes-form.component';
-import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingComponent } from './shopping/shopping.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full' },
 
+  { path: 'recipes', loadChildren: () => import('src/app/recipes/recipes.module').then((m) => m.RecipesModule) },
+
+  { path: 'shopping', component: ShoppingComponent, canActivate: [AuthGuard] },
+
   {
-    path: 'recipes',
-    component: RecipesComponent,
-    children: [
-      { path: 'create', component: RecipesFormComponent },
-      { path: ':id', component: RecipesDetailsComponent },
-      { path: ':id/edit', component: RecipesFormComponent },
-    ],
+    path: 'auth-error',
+    component: ErrorComponent,
+    data: {
+      errorMessage: 'You are not authenticated',
+    },
+  },
+  {
+    path: '404-error',
+    component: ErrorComponent,
+    data: {
+      errorMessage: 'The page you requested was not found',
+    },
   },
 
-  { path: 'shopping', component: ShoppingComponent },
-
-  { path: '**', component: ErrorComponent },
+  { path: '**', redirectTo: '/404-error' },
 ];
 
 @NgModule({

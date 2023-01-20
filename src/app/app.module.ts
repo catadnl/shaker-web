@@ -8,14 +8,13 @@ import { APP_ENVIRONMENT } from './app.config';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { RECIPE_TEXTS_CONFIG, RecipesTextsConfig } from './recipes/app.config';
-import { RecipesModule } from './recipes/recipes.module';
 import { ShoppingFormComponent } from './shopping/shopping-form/shopping-form.component';
 import { ShoppingListComponent } from './shopping/shopping-list/shopping-list.component';
 import { ShoppingComponent } from './shopping/shopping.component';
 
 @NgModule({
   declarations: [AppComponent, ShoppingComponent, ShoppingListComponent, ShoppingFormComponent],
-  imports: [BrowserAnimationsModule, AppRoutingModule, AuthModule, CoreModule, RecipesModule],
+  imports: [BrowserAnimationsModule, AppRoutingModule, AuthModule, CoreModule],
   providers: [
     {
       provide: RECIPE_TEXTS_CONFIG,

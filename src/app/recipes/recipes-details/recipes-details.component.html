@@ -9,5 +9,7 @@
     <ul class="recipe-ingredients">
       <li class="recipe-ingredients-item" *ngFor="let ingredient of recipe.ingredients">{{ ingredient.name | titlecase }}</li>
     </ul>
+
+    <a class="button" [routerLink]="'/recipes/' + recipe.id + '/edit'">Edit</a>
   </div>
 </div>
