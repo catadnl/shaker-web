@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 export interface AppEnvironment {
+  baseApiUrl: string;
   baseImageUrl: string;
   imageUrlToken: string;
 }

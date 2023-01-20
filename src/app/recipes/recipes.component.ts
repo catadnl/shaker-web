@@ -27,6 +27,8 @@ export class RecipesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.recipesService.fetchRecipes().subscribe();
+
     this.router.events
       .pipe(
         takeUntil(this.destroyed$$),
@@ -66,7 +68,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
   }
 
   onSearchChanged(searchTerm: string) {
-    this.recipesService.filterRecipes(searchTerm);
+    this.recipesService.fetchRecipes(searchTerm).subscribe();
   }
 
   onItemSelected(recipe: Recipe) {
@@ -93,7 +95,6 @@ export class RecipesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.recipesService.resetRecipes();
     this.destroyed$$.next();
     this.destroyed$$.complete();
   }

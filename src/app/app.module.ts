@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { appEnvironment } from '../environments/environment';
@@ -14,7 +15,7 @@ import { ShoppingComponent } from './shopping/shopping.component';
 
 @NgModule({
   declarations: [AppComponent, ShoppingComponent, ShoppingListComponent, ShoppingFormComponent],
-  imports: [BrowserAnimationsModule, AppRoutingModule, AuthModule, CoreModule],
+  imports: [BrowserAnimationsModule, AppRoutingModule, HttpClientModule, AuthModule, CoreModule],
   providers: [
     {
       provide: RECIPE_TEXTS_CONFIG,
