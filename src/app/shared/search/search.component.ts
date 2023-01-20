@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map, Subject, takeUntil, tap } from 'rxjs';
 
 @Component({
@@ -9,16 +10,22 @@ import { debounceTime, distinctUntilChanged, map, Subject, takeUntil, tap } from
 export class SearchComponent implements OnInit, OnDestroy {
   private destroyed$$ = new Subject<void>();
 
-  private inputChanged$$ = new Subject<string>();
-
   @Input() placeholderText!: string;
 
-  @Input() isDisabled = false;
+  @Input() set isDisabled(isDisabled: boolean) {
+    if (isDisabled) {
+      this.searchControl.disable();
+    } else {
+      this.searchControl.enable();
+    }
+  }
 
   @Output() searchChanged = new EventEmitter<string>();
 
+  searchControl = new FormControl('', { nonNullable: true });
+
   ngOnInit(): void {
-    this.inputChanged$$
+    this.searchControl.valueChanges
       .pipe(
         takeUntil(this.destroyed$$),
         debounceTime(500),
@@ -31,10 +38,6 @@ export class SearchComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-  }
-
-  onInput(event: Event) {
-    this.inputChanged$$.next((event.target as HTMLInputElement).value);
   }
 
   ngOnDestroy(): void {

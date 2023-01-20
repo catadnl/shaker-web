@@ -1,7 +1,8 @@
-<form [formGroup]="recipeForm" class="form">
+<form [formGroup]="recipeForm" class="form" (ngSubmit)="onSubmit()">
   <div class="form-control">
     <label>Name*</label>
     <input type="text" formControlName="name" placeholder="Recipe name" />
+    <span class="form-error" *ngIf="controlHasErrors('name', 'required')">This field is required</span>
   </div>
 
   <div class="form-control">
@@ -12,14 +13,17 @@
   <div class="form-control">
     <label>Image*</label>
     <input type="text" formControlName="image" placeholder="Recipe image" />
+    <span class="form-hint" *ngIf="!controlHasErrors('image', 'required')">The image name should be present on the server</span>
+    <span class="form-error" *ngIf="controlHasErrors('image', 'required')">This field is required</span>
   </div>
 
   <ul class="form-array" formArrayName="ingredients">
     <li class="form-array-header">
       <div class="form-array-label">
         <h4>Ingredients*</h4>
-        <button type="button" (click)="onAddIngredientGroup()">Add</button>
+        <button *ngIf="ingredientsFormArray.length < 15" type="button" (click)="onAddIngredientGroup()">Add</button>
       </div>
+      <span *ngIf="ingredientsFormArray.hasError('array-length-invalid')" class="form-error">Minimum 2 ingredients needed</span>
     </li>
 
     <li
@@ -30,10 +34,19 @@
       <div class="form-control">
         <label>Name*</label>
         <input formControlName="name" type="text" placeholder="Ingredient name" />
+        <span class="form-error" *ngIf="controlHasErrors('ingredients.' + formGroupIndex + '.name', 'required')"
+          >This field is required</span
+        >
       </div>
       <div class="form-control">
         <label>Quantity ( >= 1)</label>
         <input type="number" formControlName="quantity" min="0" placeholder="Ingredient quantity" />
+        <span class="form-error" *ngIf="controlHasErrors('ingredients.' + formGroupIndex + '.quantity', 'required')"
+          >This field is required</span
+        >
+        <span class="form-error" *ngIf="controlHasErrors('ingredients.' + formGroupIndex + '.quantity', 'min')"
+          >The value should be at least 1</span
+        >
       </div>
       <button
         type="button"
@@ -47,8 +60,8 @@
   </ul>
 
   <div class="form-actions">
-    <button type="button">Save</button>
-    <button type="button" class="secondary">Cancel</button>
-    <button type="button" class="secondary">Clear</button>
+    <button type="submit" [disabled]="recipeForm.invalid">Save</button>
+    <button type="button" class="secondary" (click)="onCancel()">Cancel</button>
+    <button *ngIf="!recipeForm.value.id" type="button" class="secondary" (click)="onClear()">Clear</button>
   </div>
 </form>

@@ -9,7 +9,7 @@ export interface Ingredient {
 export interface Recipe {
   id: string;
   name: string;
-  description?: string;
+  description: string | null;
   image: string;
   ingredients: Ingredient[];
 }
