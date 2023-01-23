@@ -10,6 +10,7 @@
   </div>
 
   <div class="recipes-content">
+    <p *ngIf="loading$ | async">Loading....</p>
     <app-recipes-list
       [recipes]="recipes$ | async"
       [selectedItem]="selectedRecipe"

@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, map, startWith, Subject, takeUntil, tap } from 'rxjs';
+import { filter, map, of, startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { RECIPE_TEXTS_CONFIG, RecipesTextsConfig } from './app.config';
 import { Recipe, RecipesService } from './recipes.service';
 
@@ -12,6 +12,8 @@ import { Recipe, RecipesService } from './recipes.service';
 })
 export class RecipesComponent implements OnInit, OnDestroy {
   private destroyed$$ = new Subject<void>();
+
+  loading$ = this.recipesService.loading$;
 
   recipes$ = this.recipesService.filteredRecipes$;
 
@@ -49,15 +51,14 @@ export class RecipesComponent implements OnInit, OnDestroy {
           return this.activatedRoute.snapshot.firstChild?.paramMap.get('id');
         }),
         startWith(this.activatedRoute.snapshot.firstChild?.paramMap.get('id') ?? null),
-        tap((recipeId) => {
-          if (recipeId) {
-            this.selectedRecipe = this.recipesService.getById(recipeId);
-            if (!this.selectedRecipe) {
-              this.router.navigate(['..'], { relativeTo: this.activatedRoute });
-            }
-          } else {
-            this.selectedRecipe = null;
+        switchMap((id) => {
+          if (id) {
+            return this.recipesService.getById(id);
           }
+          return of(null);
+        }),
+        tap((selectedRecipe) => {
+          this.selectedRecipe = selectedRecipe;
         })
       )
       .subscribe();
@@ -88,10 +89,11 @@ export class RecipesComponent implements OnInit, OnDestroy {
   }
 
   onItemDeleted(recipe: Recipe) {
+    this.recipesService.deleteRecipe(recipe).subscribe();
+
     if (this.selectedRecipe && this.selectedRecipe.id === recipe.id) {
       this.router.navigate(['..'], { relativeTo: this.activatedRoute });
     }
-    this.recipesService.deleteRecipe(recipe.id);
   }
 
   ngOnDestroy(): void {

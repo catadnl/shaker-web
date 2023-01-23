@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil, tap } from 'rxjs';
-import { RecipesService } from '../recipes.service';
+import { filter, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { Recipe, RecipeCreate, RecipesService } from '../recipes.service';
 
 @Component({
   selector: 'app-recipes-form',
@@ -35,27 +35,19 @@ export class RecipesFormComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap
       .pipe(
         takeUntil(this.destroyed$$),
-        tap((paramsMap) => {
-          const recipe = paramsMap.has('id') ? this.recipesService.getById(paramsMap.get('id') as string) : null;
+        filter((params) => params.has('id')),
+        switchMap((params) => {
+          return this.recipesService.getById(params.get('id') as string);
+        }),
+        tap((recipe) => {
+          this.ingredientsFormArray.clear();
+          recipe.ingredients
+            .map(() => this.getIngredientGroup())
+            .forEach((ingredientGroup) => {
+              this.ingredientsFormArray.push(ingredientGroup);
+            });
 
-          if (recipe) {
-            this.ingredientsFormArray.clear();
-            recipe.ingredients
-              .map((ingredient) => this.getIngredientGroup())
-              .forEach((ingredientGroup) => {
-                this.ingredientsFormArray.push(ingredientGroup);
-              });
-
-            this.recipeForm.setValue(recipe);
-          }
-
-          // this.recipeForm.valueChanges.subscribe((value) => {
-          //   console.log('VALUE CHANGED', value);
-          // });
-          //
-          // this.recipeForm.statusChanges.subscribe((status) => {
-          //   console.log('STATUS CHANGED', status);
-          // });
+          this.recipeForm.setValue(recipe);
         })
       )
       .subscribe();
@@ -109,6 +101,12 @@ export class RecipesFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('RECIPE TO SAVE', this.recipeForm.value);
+    const submitObservable = this.recipeForm.value.id
+      ? this.recipesService.editRecipe(this.recipeForm.value as Recipe)
+      : this.recipesService.createRecipe(this.recipeForm.value as RecipeCreate);
+
+    submitObservable.subscribe(() => {
+      this.router.navigateByUrl('/recipes');
+    });
   }
 }

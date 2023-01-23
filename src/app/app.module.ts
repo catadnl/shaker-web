@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { appEnvironment } from '../environments/environment';
@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { APP_ENVIRONMENT } from './app.config';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { RECIPE_TEXTS_CONFIG, RecipesTextsConfig } from './recipes/app.config';
 import { ShoppingFormComponent } from './shopping/shopping-form/shopping-form.component';
 import { ShoppingListComponent } from './shopping/shopping-list/shopping-list.component';
@@ -28,6 +29,7 @@ import { ShoppingComponent } from './shopping/shopping.component';
       provide: APP_ENVIRONMENT,
       useValue: appEnvironment,
     },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

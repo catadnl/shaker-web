@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { filter, map, Observable } from 'rxjs';
+import { filter, map, Observable, switchMap } from 'rxjs';
 import { Recipe, RecipesService } from '../recipes.service';
 
 @Component({
@@ -17,8 +17,7 @@ export class RecipesDetailsComponent implements OnInit {
     this.recipe$ = this.route.paramMap.pipe(
       filter((paramsMap) => paramsMap.has('id')),
       map((paramsMap) => paramsMap.get('id') as string),
-      map((recipeId) => this.recipesService.getById(recipeId)),
-      filter((recipe): recipe is Recipe => recipe !== null)
+      switchMap((recipeId) => this.recipesService.getById(recipeId))
     );
 
     // if (this.route.snapshot.paramMap.has('id')) {
